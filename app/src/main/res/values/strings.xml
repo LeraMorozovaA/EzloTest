@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">EzloTest</string>
+    <string name="sn_title">Sn: %1s</string>
+    <string name="empty_list_title">Device list is empty</string>
+    <string name="error_title">Oops.. Something went wrong. Please try again later.</string>
+
+    <string name="alert_message">Are you sure you want to delete the selected device?</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
 </resources>
