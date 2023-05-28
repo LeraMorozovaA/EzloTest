@@ -1,83 +1,34 @@
 package com.example.ezlotest.repository
 
-import android.content.Context
-import com.example.ezlotest.R
-import com.example.ezlotest.api.ApiService
-import com.example.ezlotest.api.mapper.toEntity
-import com.example.ezlotest.api.mapper.toModel
 import com.example.ezlotest.api.model.Device
-import com.example.ezlotest.data.dao.DeviceDao
-import com.example.ezlotest.data.local.LocalStorageService
-import com.example.ezlotest.ui.common.hasInternetConnection
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.map
 
-class DeviceRepository(
-    @ApplicationContext private val context: Context,
-    private val apiService: ApiService,
-    private val deviceDao: DeviceDao,
-    private val localStorage: LocalStorageService
-    ) {
+interface DeviceRepository {
 
-    val listFlow = deviceDao.getAll().map { it.map { it.toModel() } }
+    /**
+     * Get device list from API.
+     * @return The list sorted by pKDevice
+     */
+    suspend fun getDeviceList(): List<Device>
 
-    suspend fun getDeviceList(): List<Device> {
-        return if (hasInternetConnection(context)) {
-            val list = fetchDeviceList()
-                .apply { updateDeviceTitles(this) }
-            deviceDao.insertAll(list.map { it.toEntity() })
-            list
-        } else {
-            getDeviceListFromDB()
-        }
-    }
+    /**
+     * Delete selected device by pKDevice
+     */
+    suspend fun deleteDeviceByPK(pKDevice: Int)
 
-    suspend fun deleteDeviceByPK(pKDevice: Int) {
-        deviceDao.deleteDeviceByPK(pKDevice)
-        val deletedPKSet = localStorage.getDeletedDevicePKSet().toMutableSet()
-            .apply { add(pKDevice.toString()) }
-        localStorage.setDeletedDevicePKSet(deletedPKSet)
-    }
+    /**
+     * @return Device found by pKDevice
+     */
+    suspend fun getDeviceByPK(pKDevice: Int): Device
 
-    suspend fun getDeviceByPK(pKDevice: Int): Device {
-        return deviceDao.getDeviceByPK(pKDevice).toModel()
-    }
+    /**
+     * Update device with new data
+     */
+    suspend fun updateDevice(device: Device)
 
-    suspend fun updateDevice(device: Device) {
-        deviceDao.updateDevice(device.toEntity())
-    }
+    /**
+     * Get user info
+     * @return Pair where first - user image resource id, second - user name
+     */
+    fun getUserInfo(): Pair<Int, String>
 
-    private fun getDeviceListFromDB(): List<Device> {
-        return deviceDao.getDeviceList().map { it.toModel() }.sortedBy { it.pKDevice }
-    }
-
-    private suspend fun fetchDeviceList(): List<Device> {
-        return apiService.getItemsList().devices
-            .map { it.toModel() }
-            .filter { !isPKDeviceDeletedByUser(it.pKDevice)  }
-            .sortedBy { it.pKDevice }
-    }
-
-    private suspend fun isPKDeviceDeletedByUser(pKDevice: Int): Boolean {
-        val item = localStorage.getDeletedDevicePKSet().map { it.toInt() }
-            .firstOrNull { pk -> pk == pKDevice }
-        return item != null
-    }
-
-    private fun updateDeviceTitles(list: List<Device>): List<Device> {
-        val oldListWithDeviceTitles = deviceDao.getDeviceList().filter { !it.deviceTitle.isNullOrBlank() }
-        oldListWithDeviceTitles.forEach { device ->
-            list.find { device.pKDevice == it.pKDevice }?.deviceTitle = device.deviceTitle
-        }
-        return list
-    }
-
-
-    fun getUserInfo(): Pair<Int, String> {
-        return R.drawable.ic_photo to USER_NAME
-    }
-
-    companion object {
-        private const val USER_NAME = "Valeriia Morozova"
-    }
 }

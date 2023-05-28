@@ -8,11 +8,11 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_photo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="@dimen/big_icon_size"
+        android:layout_height="@dimen/big_icon_size"
+        android:layout_marginTop="@dimen/big_padding"
         tools:src="@tools:sample/avatars"
-        app:riv_corner_radius="55dp"
+        app:riv_corner_radius="@dimen/big_icon_corner_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,19 +21,16 @@
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:lines="1"
-        android:ellipsize="end"
-        android:textColor="@color/black"
-        android:textSize="25sp"
+        android:layout_marginTop="@dimen/big_padding"
+        android:layout_marginStart="@dimen/default_padding"
+        android:layout_marginEnd="@dimen/default_padding"
+        style="@style/TitleTextStyle"
+        android:textSize="@dimen/header_text_size"
         android:textAlignment="center"
         tools:text="John Wayne"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_photo"
-        android:paddingBottom="25dp"/>
+        android:paddingBottom="@dimen/big_padding"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

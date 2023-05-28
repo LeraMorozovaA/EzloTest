@@ -12,7 +12,7 @@ interface DeviceDao {
     fun getDeviceList(): List<DeviceEntity>
 
     @Query("SELECT * FROM devices")
-    fun getAll(): Flow<List<DeviceEntity>>
+    fun getDeviceListFlow(): Flow<List<DeviceEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(list: List<DeviceEntity>)

@@ -2,9 +2,9 @@ package com.example.ezlotest.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ezlotest.api.model.Device
-import com.example.ezlotest.repository.DeviceRepository
+import com.example.ezlotest.api.DeviceRepositoryImpl
 import com.example.ezlotest.ui.common.ViewState
+import com.example.ezlotest.ui.viewstate.DeviceListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DeviceListViewModel @Inject constructor(
-    private val repository: DeviceRepository
+    private val repository: DeviceRepositoryImpl
 ): ViewModel() {
 
     val viewState = MutableStateFlow<ViewState<DeviceListViewState>>(ViewState.Idle)
@@ -61,10 +61,4 @@ class DeviceListViewModel @Inject constructor(
         }
     }
 
-}
-
-class DeviceListViewState {
-    var photo: Int = 0
-    var name: String = ""
-    var list: List<Device> = listOf()
 }

@@ -19,15 +19,16 @@ data class Device(
     var deviceTitle: String?
 ) {
 
-    fun getDeviceTitle(context: Context): String {
-        return if (deviceTitle.isNullOrEmpty())
-            context.getString(R.string.default_device_title)
-        else
+    fun getDeviceTitle(context: Context, indexInList: Int): String {
+        return if (deviceTitle.isNullOrEmpty()) {
+            context.getString(R.string.default_device_title, indexInList + 1)
+        } else {
             deviceTitle!!
+        }
     }
 
     companion object {
-        fun setupPlatform (platform: String): Platform {
+        fun setupPlatform(platform: String): Platform {
             if (platform.isEmpty()) return Platform.UNKNOWN
             for (p in Platform.values()) {
                 if (p.value == platform) {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -11,14 +12,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ezlotest.R
 import com.example.ezlotest.databinding.FragmentDeviceListBinding
+import com.example.ezlotest.ui.adapters.DeviceAdapter
+import com.example.ezlotest.ui.adapters.HeaderAdapter
 import com.example.ezlotest.ui.common.ViewState
 import com.example.ezlotest.ui.common.showAlert
 import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_DEVICE_PK
+import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_INDEX
 import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_SCREEN_MODE
 import com.example.ezlotest.ui.details.ScreenMode
+import com.example.ezlotest.ui.viewstate.DeviceListViewState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -63,19 +70,26 @@ class DeviceListFragment: Fragment(R.layout.fragment_device_list) {
 
     private fun setupRecyclerView() {
         adapter = DeviceAdapter(
-            onClick = { pkDevice ->  navigateToDeviceDetailsFragment(pkDevice, screenMode = ScreenMode.VIEW) },
+            onClick = { info ->  navigateToDeviceDetailsFragment(info.first, screenMode = ScreenMode.VIEW, info.second) },
             onLongClick = { pkDevice -> showDeleteDeviceAlert(pkDevice) },
-            onEditClick = { pkDevice -> navigateToDeviceDetailsFragment(pkDevice, screenMode = ScreenMode.EDIT) }
+            onEditClick = { info -> navigateToDeviceDetailsFragment(info.first, screenMode = ScreenMode.EDIT, info.second) }
         )
         headerAdapter = HeaderAdapter()
+
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
+        ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, null)
+            ?.let { drawable -> dividerItemDecoration.setDrawable(drawable) }
+        binding.recyclerView.addItemDecoration(dividerItemDecoration)
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = ConcatAdapter(headerAdapter, adapter)
     }
 
-    private fun navigateToDeviceDetailsFragment(pkDevice: Int, screenMode: ScreenMode) {
+    private fun navigateToDeviceDetailsFragment(pkDevice: Int, screenMode: ScreenMode, index: Int) {
         val bundle = bundleOf(
             ARG_DEVICE_PK to pkDevice,
-            ARG_SCREEN_MODE to screenMode
+            ARG_SCREEN_MODE to screenMode,
+            ARG_INDEX to index
         )
         findNavController().navigate(R.id.action_deviceListFragment_to_deviceDetailsFragment, bundle)
     }

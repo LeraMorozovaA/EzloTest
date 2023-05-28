@@ -1,20 +1,19 @@
-package com.example.ezlotest.ui.list
+package com.example.ezlotest.ui.adapters
 
 import android.annotation.SuppressLint
-import android.os.health.HealthStats
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ezlotest.databinding.LayoutUserInfoBinding
 
 @SuppressLint("NotifyDataSetChanged")
-class HeaderAdapter: RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
+class HeaderAdapter : RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
 
     var data: Pair<Int, String> = Pair(0, "")
         set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,7 +23,7 @@ class HeaderAdapter: RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
         return HeaderViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: HeaderAdapter.HeaderViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HeaderViewHolder, position: Int) {
         holder.bind()
     }
 
@@ -33,7 +32,6 @@ class HeaderAdapter: RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
     }
 
     inner class HeaderViewHolder(private val binding: LayoutUserInfoBinding) : RecyclerView.ViewHolder(binding.root) {
-
 
         fun bind() {
             binding.ivPhoto.setImageResource(data.first)

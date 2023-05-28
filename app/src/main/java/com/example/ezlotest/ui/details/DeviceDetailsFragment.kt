@@ -14,6 +14,7 @@ import com.example.ezlotest.databinding.FragmentDeviceDetailsBinding
 import com.example.ezlotest.ui.common.ViewState
 import com.example.ezlotest.ui.common.showAlert
 import com.example.ezlotest.ui.common.showKeyboard
+import com.example.ezlotest.ui.viewstate.DeviceDetailsViewState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -62,7 +63,7 @@ class DeviceDetailsFragment: Fragment(R.layout.fragment_device_details) {
 
     private fun setupListeners() {
         binding.btnSave.setOnClickListener {
-            val newTitle: String = binding.editText.text.toString()
+            val newTitle: String = binding.inputDeviceTitle.text.toString()
             if (newTitle.isEmpty()) return@setOnClickListener
             viewModel.saveDeviceTitle(newTitle)
         }
@@ -82,15 +83,16 @@ class DeviceDetailsFragment: Fragment(R.layout.fragment_device_details) {
         binding.txtModel.text = getString(R.string.model, device.platform.value)
 
         binding.txtTitle.isVisible = state.screenMode == ScreenMode.VIEW
-        binding.editText.isVisible = state.screenMode == ScreenMode.EDIT
+        binding.inputDeviceTitle.isVisible = state.screenMode == ScreenMode.EDIT
         binding.btnSave.isVisible = state.screenMode == ScreenMode.EDIT
 
-        val deviceTitle = device.getDeviceTitle(requireContext())
+        val indexInList = requireArguments().getInt(ARG_INDEX)
+        val deviceTitle = device.getDeviceTitle(requireContext(), indexInList)
         if (state.screenMode == ScreenMode.VIEW) {
             binding.txtTitle.text = deviceTitle
         } else {
-            binding.editText.setText(deviceTitle)
-            binding.editText.apply {
+            binding.inputDeviceTitle.setText(deviceTitle)
+            binding.inputDeviceTitle.apply {
                 requestFocus()
                 showKeyboard()
             }
@@ -107,11 +109,12 @@ class DeviceDetailsFragment: Fragment(R.layout.fragment_device_details) {
 
     override fun onPause() {
         super.onPause()
-        binding.editText.clearFocus()
+        binding.inputDeviceTitle.clearFocus()
     }
 
     companion object {
         const val ARG_DEVICE_PK = "arg_device_pk"
         const val ARG_SCREEN_MODE = "arg_screen_mode"
+        const val ARG_INDEX = "arg_index_in_list"
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ezlotest.di
 
+import com.example.ezlotest.BuildConfig
 import com.example.ezlotest.api.ApiService
 import dagger.Module
 import dagger.Provides
@@ -22,7 +23,10 @@ object ApiModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = if (BuildConfig.DEBUG)
+                HttpLoggingInterceptor.Level.BODY
+            else
+                HttpLoggingInterceptor.Level.NONE
         }
 
         return OkHttpClient.Builder().apply {

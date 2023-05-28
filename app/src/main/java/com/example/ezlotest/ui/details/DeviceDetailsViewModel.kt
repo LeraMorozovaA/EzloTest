@@ -2,18 +2,17 @@ package com.example.ezlotest.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ezlotest.api.model.Device
-import com.example.ezlotest.repository.DeviceRepository
+import com.example.ezlotest.api.DeviceRepositoryImpl
 import com.example.ezlotest.ui.common.ViewState
+import com.example.ezlotest.ui.viewstate.DeviceDetailsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class DeviceDetailsViewModel @Inject constructor(
-    private val repository: DeviceRepository
+    private val repository: DeviceRepositoryImpl
 ): ViewModel() {
 
     val viewState = MutableStateFlow<ViewState<DeviceDetailsViewState>>(ViewState.Idle)
@@ -48,11 +47,4 @@ class DeviceDetailsViewModel @Inject constructor(
             viewState.value = ViewState.Error(e)
         }
     }
-}
-
-class DeviceDetailsViewState {
-    var photo: Int = 0
-    var name: String = ""
-    var device: Device? = null
-    var screenMode = ScreenMode.VIEW
 }
