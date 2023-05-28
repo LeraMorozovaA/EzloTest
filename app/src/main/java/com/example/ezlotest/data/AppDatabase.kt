@@ -6,6 +6,6 @@ import com.example.ezlotest.data.dao.DeviceDao
 import com.example.ezlotest.data.model.DeviceEntity
 
 @Database(entities = [DeviceEntity::class], version = 1)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun deviceDao(): DeviceDao
 }

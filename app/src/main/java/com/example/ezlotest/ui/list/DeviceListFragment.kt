@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class DeviceListFragment: Fragment(R.layout.fragment_device_list) {
+class DeviceListFragment : Fragment(R.layout.fragment_device_list) {
 
     private val viewModel: DeviceListViewModel by viewModels()
     private var adapter: DeviceAdapter? = null
@@ -60,7 +60,7 @@ class DeviceListFragment: Fragment(R.layout.fragment_device_list) {
         viewModel.viewState.onEach { state ->
             binding.progress.isVisible = state is ViewState.Loading
 
-            when(state){
+            when (state) {
                 is ViewState.Data -> setData(state.data)
                 is ViewState.Error -> showError()
                 else -> return@onEach

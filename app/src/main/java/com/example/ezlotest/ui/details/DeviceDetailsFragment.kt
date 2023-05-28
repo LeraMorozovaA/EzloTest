@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class DeviceDetailsFragment: Fragment(R.layout.fragment_device_details) {
+class DeviceDetailsFragment : Fragment(R.layout.fragment_device_details) {
 
     private val viewModel: DeviceDetailsViewModel by viewModels()
 
@@ -49,7 +49,7 @@ class DeviceDetailsFragment: Fragment(R.layout.fragment_device_details) {
 
     private fun setupObserving() {
         viewModel.viewState.onEach { state ->
-            when(state){
+            when (state) {
                 is ViewState.Data -> setData(state.data)
                 is ViewState.Error -> showError()
                 is ViewState.Success -> findNavController().popBackStack()

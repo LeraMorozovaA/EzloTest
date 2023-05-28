@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DeviceListViewModel @Inject constructor(
     private val repository: DeviceRepositoryImpl
-): ViewModel() {
+) : ViewModel() {
 
     val viewState = MutableStateFlow<ViewState<DeviceListViewState>>(ViewState.Idle)
     private val state = DeviceListViewState()

@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DeviceDetailsViewModel @Inject constructor(
     private val repository: DeviceRepositoryImpl
-): ViewModel() {
+) : ViewModel() {
 
     val viewState = MutableStateFlow<ViewState<DeviceDetailsViewState>>(ViewState.Idle)
     private val state = DeviceDetailsViewState()

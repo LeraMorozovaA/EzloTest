@@ -5,6 +5,7 @@ import com.example.ezlotest.api.ApiService
 import com.example.ezlotest.data.dao.DeviceDao
 import com.example.ezlotest.data.local.LocalStorageService
 import com.example.ezlotest.api.DeviceRepositoryImpl
+import com.example.ezlotest.repository.DeviceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,5 +24,5 @@ object RepositoryModule {
         apiService: ApiService,
         dao: DeviceDao,
         localStorageService: LocalStorageService
-    ): DeviceRepositoryImpl = DeviceRepositoryImpl(context, apiService, dao, localStorageService)
+    ): DeviceRepository = DeviceRepositoryImpl(context, apiService, dao, localStorageService)
 }
