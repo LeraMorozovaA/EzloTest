@@ -38,6 +38,10 @@ class DeviceRepository(
         localStorage.setDeletedDevicePKSet(deletedPKSet)
     }
 
+    suspend fun getDeviceByPK(pKDevice: Int): Device {
+        return deviceDao.getDeviceByPK(pKDevice).toModel()
+    }
+
     private fun getDeviceListFromDB(): List<Device> {
         return deviceDao.getDeviceList().map { it.toModel() }.sortedBy { it.pKDevice }
     }

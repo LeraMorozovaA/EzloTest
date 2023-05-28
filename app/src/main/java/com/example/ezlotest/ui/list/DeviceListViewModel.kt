@@ -1,14 +1,11 @@
 package com.example.ezlotest.ui.list
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ezlotest.api.model.Device
 import com.example.ezlotest.repository.DeviceRepository
 import com.example.ezlotest.ui.common.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.drop
@@ -16,7 +13,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,12 +46,12 @@ class DeviceListViewModel @Inject constructor(
     private suspend fun loadData() = withContext(Dispatchers.IO) {
         viewState.value = ViewState.Loading
         try {
-            val userData = repository.getUserInfo()
+            val userInfo = repository.getUserInfo()
             val itemsList = repository.getDeviceList()
 
             state.apply {
-                photo = userData.first
-                name = userData.second
+                photo = userInfo.first
+                name = userInfo.second
                 list = itemsList
             }
 

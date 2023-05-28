@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,8 @@ import com.example.ezlotest.R
 import com.example.ezlotest.databinding.FragmentDeviceListBinding
 import com.example.ezlotest.ui.common.ViewState
 import com.example.ezlotest.ui.common.showAlert
+import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_DEVICE_PK
+import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_EDIT_MODE
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -60,13 +64,21 @@ class DeviceListFragment: Fragment(R.layout.fragment_device_list) {
 
     private fun setupRecyclerView() {
         adapter = DeviceAdapter(
-            onClick = { pkDevice ->  },
+            onClick = { pkDevice ->  navigateToDeviceDetailsFragment(pkDevice, editMode = false) },
             onLongClick = { pkDevice -> showDeleteDeviceAlert(pkDevice) },
-            onEditClick = { pkDevice -> }
+            onEditClick = { pkDevice -> navigateToDeviceDetailsFragment(pkDevice, editMode = true) }
         )
         headerAdapter = HeaderAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = ConcatAdapter(headerAdapter, adapter)
+    }
+
+    private fun navigateToDeviceDetailsFragment(pkDevice: Int, editMode: Boolean) {
+        val bundle = bundleOf(
+            ARG_DEVICE_PK to pkDevice,
+            ARG_EDIT_MODE to editMode
+        )
+        findNavController().navigate(R.id.action_deviceListFragment_to_deviceDetailsFragment, bundle)
     }
 
     private fun setData(state: DeviceListViewState) {

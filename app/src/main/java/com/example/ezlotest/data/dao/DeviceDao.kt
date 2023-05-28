@@ -20,7 +20,7 @@ interface DeviceDao {
     suspend fun insertAll(list: List<DeviceEntity>)
 
     @Query("SELECT * FROM devices WHERE pKDevice = :pKDevice")
-    fun getDeviceByPK(pKDevice: Int): DeviceEntity
+    suspend fun getDeviceByPK(pKDevice: Int): DeviceEntity
 
     @Query("DELETE FROM devices WHERE pKDevice=:pKDevice")
     suspend fun deleteDeviceByPK(pKDevice: Int)

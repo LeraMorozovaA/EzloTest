@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/deviceListFragment"
         android:name="com.example.ezlotest.ui.list.DeviceListFragment"
-        android:label="DeviceListFragment" />
+        android:label="DeviceListFragment" >
+        <action
+            android:id="@+id/action_deviceListFragment_to_deviceDetailsFragment"
+            app:destination="@id/deviceDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceDetailsFragment"
+        android:name="com.example.ezlotest.ui.details.DeviceDetailsFragment"
+        android:label="DeviceDetailsFragment" />
 </navigation>

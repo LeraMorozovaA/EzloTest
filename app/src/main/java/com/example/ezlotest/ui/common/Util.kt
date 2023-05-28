@@ -34,7 +34,7 @@ fun hasInternetConnection(context: Context): Boolean {
     return false
 }
 
-fun MaterialAlertDialogBuilder.showAlert(message: String, pTextButton: String, nTextButton: String, onClick: (() -> Unit)? = null) {
+fun MaterialAlertDialogBuilder.showAlert(message: String, pTextButton: String, nTextButton: String? = null, onClick: (() -> Unit)? = null) {
     setMessage(message)
     setPositiveButton(pTextButton) { dialog, _ ->
         onClick?.invoke()
