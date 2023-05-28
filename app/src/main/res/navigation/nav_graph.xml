@@ -10,7 +10,9 @@
         android:label="DeviceListFragment" >
         <action
             android:id="@+id/action_deviceListFragment_to_deviceDetailsFragment"
-            app:destination="@id/deviceDetailsFragment" />
+            app:destination="@id/deviceDetailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailsFragment"

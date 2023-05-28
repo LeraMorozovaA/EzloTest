@@ -24,6 +24,7 @@ class DeviceRepository(
     suspend fun getDeviceList(): List<Device> {
         return if (hasInternetConnection(context)) {
             val list = fetchDeviceList()
+                .apply { updateDeviceTitles(this) }
             deviceDao.insertAll(list.map { it.toEntity() })
             list
         } else {
@@ -42,6 +43,10 @@ class DeviceRepository(
         return deviceDao.getDeviceByPK(pKDevice).toModel()
     }
 
+    suspend fun updateDevice(device: Device) {
+        deviceDao.updateDevice(device.toEntity())
+    }
+
     private fun getDeviceListFromDB(): List<Device> {
         return deviceDao.getDeviceList().map { it.toModel() }.sortedBy { it.pKDevice }
     }
@@ -58,6 +63,15 @@ class DeviceRepository(
             .firstOrNull { pk -> pk == pKDevice }
         return item != null
     }
+
+    private fun updateDeviceTitles(list: List<Device>): List<Device> {
+        val oldListWithDeviceTitles = deviceDao.getDeviceList().filter { !it.deviceTitle.isNullOrBlank() }
+        oldListWithDeviceTitles.forEach { device ->
+            list.find { device.pKDevice == it.pKDevice }?.deviceTitle = device.deviceTitle
+        }
+        return list
+    }
+
 
     fun getUserInfo(): Pair<Int, String> {
         return R.drawable.ic_photo to USER_NAME

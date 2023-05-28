@@ -1,9 +1,7 @@
 package com.example.ezlotest.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.example.ezlotest.api.model.Device
 import com.example.ezlotest.data.model.DeviceEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -24,5 +22,8 @@ interface DeviceDao {
 
     @Query("DELETE FROM devices WHERE pKDevice=:pKDevice")
     suspend fun deleteDeviceByPK(pKDevice: Int)
+
+    @Update
+    suspend fun updateDevice(device: DeviceEntity)
 
 }

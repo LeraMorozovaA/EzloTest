@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun hasInternetConnection(context: Context): Boolean {
@@ -44,4 +46,9 @@ fun MaterialAlertDialogBuilder.showAlert(message: String, pTextButton: String, n
         dialog.dismiss()
     }
     show()
+}
+
+fun EditText.showKeyboard() {
+    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }

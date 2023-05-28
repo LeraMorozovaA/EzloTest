@@ -16,7 +16,8 @@ fun DeviceDto.toModel() = Device(
     internalIP = internalIP,
     lastAliveReported = lastAliveReported,
     platform = Device.setupPlatform(platform),
-    pKAccount = pKAccount
+    pKAccount = pKAccount,
+    deviceTitle = null
 )
 
 fun Device.toEntity() = DeviceEntity(
@@ -31,7 +32,8 @@ fun Device.toEntity() = DeviceEntity(
     internalIP = internalIP,
     lastAliveReported = lastAliveReported,
     platform = platform.value,
-    pKAccount = pKAccount
+    pKAccount = pKAccount,
+    deviceTitle = deviceTitle
 )
 
 fun DeviceEntity.toModel() = Device(
@@ -46,5 +48,6 @@ fun DeviceEntity.toModel() = Device(
     internalIP = internalIP,
     lastAliveReported = lastAliveReported,
     platform = Device.setupPlatform(platform),
-    pKAccount = pKAccount
+    pKAccount = pKAccount,
+    deviceTitle = deviceTitle
 )

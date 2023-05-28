@@ -1,7 +1,6 @@
 package com.example.ezlotest.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ezlotest.R
 import com.example.ezlotest.databinding.FragmentDeviceListBinding
 import com.example.ezlotest.ui.common.ViewState
 import com.example.ezlotest.ui.common.showAlert
 import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_DEVICE_PK
-import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_EDIT_MODE
+import com.example.ezlotest.ui.details.DeviceDetailsFragment.Companion.ARG_SCREEN_MODE
+import com.example.ezlotest.ui.details.ScreenMode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -64,19 +63,19 @@ class DeviceListFragment: Fragment(R.layout.fragment_device_list) {
 
     private fun setupRecyclerView() {
         adapter = DeviceAdapter(
-            onClick = { pkDevice ->  navigateToDeviceDetailsFragment(pkDevice, editMode = false) },
+            onClick = { pkDevice ->  navigateToDeviceDetailsFragment(pkDevice, screenMode = ScreenMode.VIEW) },
             onLongClick = { pkDevice -> showDeleteDeviceAlert(pkDevice) },
-            onEditClick = { pkDevice -> navigateToDeviceDetailsFragment(pkDevice, editMode = true) }
+            onEditClick = { pkDevice -> navigateToDeviceDetailsFragment(pkDevice, screenMode = ScreenMode.EDIT) }
         )
         headerAdapter = HeaderAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = ConcatAdapter(headerAdapter, adapter)
     }
 
-    private fun navigateToDeviceDetailsFragment(pkDevice: Int, editMode: Boolean) {
+    private fun navigateToDeviceDetailsFragment(pkDevice: Int, screenMode: ScreenMode) {
         val bundle = bundleOf(
             ARG_DEVICE_PK to pkDevice,
-            ARG_EDIT_MODE to editMode
+            ARG_SCREEN_MODE to screenMode
         )
         findNavController().navigate(R.id.action_deviceListFragment_to_deviceDetailsFragment, bundle)
     }

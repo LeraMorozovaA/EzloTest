@@ -18,5 +18,6 @@ data class DeviceEntity(
     @ColumnInfo(name = "internalIP") val internalIP: String,
     @ColumnInfo(name = "lastAliveReported") val lastAliveReported: String,
     @ColumnInfo(name = "platform") val platform: String,
-    @ColumnInfo(name = "pKAccount") val pKAccount: Int
+    @ColumnInfo(name = "pKAccount") val pKAccount: Int,
+    @ColumnInfo(name = "deviceTitle") var deviceTitle: String?
 )

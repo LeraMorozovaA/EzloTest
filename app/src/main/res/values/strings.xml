@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">EzloTest</string>
     <string name="sn_title">SN: %1s</string>
+    <string name="default_device_title">Home Number 1</string>
     <string name="empty_list_title">Device list is empty</string>
     <string name="error_title">Oops.. Something went wrong. Please try again later.</string>
 
@@ -11,4 +12,6 @@
     <string name="mac_address">MAC Address: %1s</string>
     <string name="firmware">Firmware: %1s</string>
     <string name="model">Model: %1s</string>
+
+    <string name="btb_save">Save</string>
 </resources>

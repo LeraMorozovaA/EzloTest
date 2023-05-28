@@ -1,13 +1,11 @@
 package com.example.ezlotest.ui.list
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ezlotest.R
 import com.example.ezlotest.api.model.Device
-import com.example.ezlotest.api.model.Platform
 import com.example.ezlotest.databinding.ItemDeviceBinding
 
 @SuppressLint("NotifyDataSetChanged")
@@ -47,6 +45,7 @@ class DeviceAdapter(
 
         init {
             binding.container.setOnClickListener { onClick.invoke(device.pKDevice) }
+            binding.btnDetails.setOnClickListener { onClick.invoke(device.pKDevice) }
             binding.btnEdit.setOnClickListener { onEditClick.invoke(device.pKDevice) }
             binding.container.setOnLongClickListener {
                 onLongClick.invoke(device.pKDevice)
@@ -57,7 +56,7 @@ class DeviceAdapter(
         fun bind(item: Device?) {
             device = item ?: return
 
-            binding.txtTitle.text = "HOME NUMBER 1"
+            binding.txtTitle.text = item.getDeviceTitle(binding.root.context)
             binding.txtSn.text = binding.root.context.getString(R.string.sn_title, item.pKDevice.toString())
             binding.ivDevice.setImageResource(item.platform.imageRes)
         }

@@ -1,5 +1,8 @@
 package com.example.ezlotest.api.model
 
+import android.content.Context
+import com.example.ezlotest.R
+
 data class Device(
     val pKDevice: Int,
     val macAddress: String,
@@ -12,8 +15,16 @@ data class Device(
     val internalIP: String,
     val lastAliveReported: String,
     val platform: Platform,
-    val pKAccount: Int
+    val pKAccount: Int,
+    var deviceTitle: String?
 ) {
+
+    fun getDeviceTitle(context: Context): String {
+        return if (deviceTitle.isNullOrEmpty())
+            context.getString(R.string.default_device_title)
+        else
+            deviceTitle!!
+    }
 
     companion object {
         fun setupPlatform (platform: String): Platform {
